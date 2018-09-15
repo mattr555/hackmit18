@@ -3,6 +3,8 @@ import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import { Button, Input, Icon, Form, Container } from "semantic-ui-react";
 import DatePicker from "react-datepicker";
 import moment from "moment";
+import Template1 from "./resumeTemplates/template1.js";
+
 
 import Multiselect from "./Multiselect";
 
@@ -50,6 +52,14 @@ class App extends Component {
                     this.setState({ lastName: e.target.value, dirty: true })
                   }
                 />
+                <Form.Field
+                  control={Input}
+                  label="email address"
+                  value={this.state.emailAddr}
+                  onChange={e =>
+                    this.setState({ emailAddr: e.target.value, dirty: true })
+                  }
+                />
               </Form.Group>
               <Form.Field
                 label="Date"
@@ -84,22 +94,13 @@ class App extends Component {
           </div>
         </div>
         <div className="docWrap">
-          <Document
-            key={this.state.remountKey}
-            title="aaaa"
-            onRender={this.onDocRender}
-          >
-            <Page size="LETTER">
-              <View style={{ width: "100%", textAlign: "center" }}>
-                <Text>
-                  {this.state.firstName} {this.state.lastName}
-                </Text>
-              </View>
-              <View>
-                <Text>{this.state.date.format("MMM D, YYYY")}</Text>
-              </View>
-            </Page>
-          </Document>
+          <Template1 userData={{
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            emailAddr: this.state.emailAddr,
+            date: this.state.date
+          }} onDocRender={this.onDocRender} key={this.state.remountKey}></Template1>
+          
         </div>
       </div>
     );
