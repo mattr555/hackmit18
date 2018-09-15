@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
-import { Button, Input, Icon, Form, Container } from "semantic-ui-react";
+import { Button, Input, Icon, Form, Container, Checkbox } from "semantic-ui-react";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 
@@ -18,7 +18,14 @@ class App extends Component {
       date: moment(),
       dirty: false,
       remountKey: 0,
-      docUrl: null
+      docUrl: null,
+      showEducation: false,
+      showUni1: false,
+      showUni2: false,
+      showUni3: false,
+      universityName1: "Massachusetts Institute of Technology",
+      universityName2: "Massachusetts Institute of Technology",
+      universityName3: "Massachusetts Institute of Technology"
     };
   }
 
@@ -57,6 +64,56 @@ class App extends Component {
                 selected={this.state.date}
                 onChange={d => this.setState({ date: d, dirty: true })}
               />
+	      <Form.Field
+	        label="Education"
+	        control={Checkbox}
+	        value={this.state.showUni1}
+	        onChange={f => 
+		  this.setState({showEducation: !this.state.showEducation,showUni1: false, showUni2: false, showUni3: false, dirty: true})}
+	      {this.state.showEducation && <div>
+	      <Button.Group>
+		<Button>
+		  content="One"
+                  onClick={() => 
+		    this.setState({ showUni1: true, showUni2: false, showUni3: false})}
+		</Button>
+		<Button>
+		  content="Two"
+		  onClick={() =>
+		    this.setState({ showUni1: true, showUni2: true, showUni3: false})}
+		</Button>
+		<Button>
+		  content="Three"
+		  onClick={() =>
+		    this.setState({ showUni1: true, showUni2: true, showUni3: true})}
+		</Button>
+	      </Button.Group>      
+	      {this.state.showUni1 && <div>
+	      <Form.Field
+                control={Input}
+                label="Name of Institution 1"
+                value={this.state.universityName1}
+                onChange={e => this.setState({ universityName1: e.target.value, dirty: true})}
+              />
+	      /div>}
+	      {this.state.showUni2 && <div>
+	      <Form.Field
+                control={Input}
+                label="Name of Institution 2"
+                value={this.state.universityName2}
+                onChange={e => this.setState({ universityName2: e.target.value, dirty: true})}
+              />	
+	      </div>}
+	      {this.state.showUni3 && <div>
+	      <Form.Field
+                control={Input}
+                label="Name of Institution 3"
+                value={this.state.universityName3}
+                onChange={e => this.setState({ universityName3: e.target.value, dirty: true})}
+              />
+	      </div>}
+	      }
+	      </div>
               {/* <Multiselect /> */}
             </Form>
           </div>
