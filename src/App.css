@@ -1,6 +1,12 @@
 .appWrap {
-  display: flex;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.buildWrap {
+  display: flex;
+  flex: 1;
   flex-direction: row;
 }
 

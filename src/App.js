@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
-import { Button, Input, Icon, Form, Container } from "semantic-ui-react";
+import { Button, Input, Icon, Form, Container, Menu } from "semantic-ui-react";
+import { Route, NavLink } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 
@@ -9,12 +10,13 @@ import Multiselect from "./Multiselect";
 import "react-datepicker/dist/react-datepicker.css";
 import "./App.css";
 
-class App extends Component {
+class Build extends Component {
   constructor(props) {
     super(props);
     this.state = {
       firstName: "Joe",
       lastName: "Schmoe",
+      educations: [],
       date: moment(),
       dirty: false,
       remountKey: 0,
@@ -28,10 +30,9 @@ class App extends Component {
 
   render() {
     return (
-      <div className="appWrap">
+      <div className="buildWrap">
         <div className="editWrap">
           <div className="editBody">
-            <h2>hai</h2>
             <Form>
               <Form.Group widths="equal">
                 <Form.Field
@@ -55,8 +56,11 @@ class App extends Component {
                 label="Date"
                 control={DatePicker}
                 selected={this.state.date}
-                onChange={d => this.setState({ date: d, dirty: true })}
+                onChange={d => {
+                  this.setState({ date: d, dirty: true });
+                }}
               />
+              {this.state.showEducation && <div>thing</div>}
               {/* <Multiselect /> */}
             </Form>
           </div>
@@ -101,6 +105,39 @@ class App extends Component {
             </Page>
           </Document>
         </div>
+      </div>
+    );
+  }
+}
+
+const Edit = () => <div>Hi</div>;
+
+class App extends Component {
+  render() {
+    return (
+      <div className="appWrap">
+        <Menu>
+          <Menu.Item header>Resume Builder</Menu.Item>
+          <Menu.Item
+            as={NavLink}
+            activeClassName="active"
+            to="/edit"
+            name="editDetails"
+          >
+            Edit Details
+          </Menu.Item>
+          <Menu.Item
+            as={NavLink}
+            activeClassName="active"
+            to="/build"
+            name="build"
+          >
+            Build
+          </Menu.Item>
+        </Menu>
+
+        <Route path="/build" component={Build} />
+        <Route path="/edit" component={Edit} />
       </div>
     );
   }
