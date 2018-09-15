@@ -1,0 +1,33 @@
+.appWrap {
+  display: flex;
+  height: 100vh;
+  flex-direction: row;
+}
+
+.editWrap {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+}
+
+.docWrap {
+  flex: 1 1 0%;
+}
+
+.editBody {
+  flex: 1 1 0%;
+  max-height: calc(100% - 50px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 5px 10px;
+}
+
+.editFooter {
+  height: 50px;
+  /* background-color: rebeccapurple; */
+}
+
+.docWrap iframe {
+  width: calc(100% - 5px);
+  height: calc(100% - 5px);
+}
