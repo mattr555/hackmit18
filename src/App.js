@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import { Button, Input, Icon, Form, Container, Menu } from "semantic-ui-react";
+import { InputField } from "react-semantic-redux-form";
 import { Route, NavLink } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 
 import Multiselect from "./Multiselect";
+import EditDetailsForm from "./EditDetailsForm";
+import EditPage from "./EditPage";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./App.css";
@@ -33,7 +36,7 @@ class Build extends Component {
       <div className="buildWrap">
         <div className="editWrap">
           <div className="editBody">
-            <Form>
+            {/* <Form>
               <Form.Group widths="equal">
                 <Form.Field
                   control={Input}
@@ -61,8 +64,7 @@ class Build extends Component {
                 }}
               />
               {this.state.showEducation && <div>thing</div>}
-              {/* <Multiselect /> */}
-            </Form>
+            </Form> */}
           </div>
           <div className="editFooter">
             <Button
@@ -110,8 +112,6 @@ class Build extends Component {
   }
 }
 
-const Edit = () => <div>Hi</div>;
-
 class App extends Component {
   render() {
     return (
@@ -137,7 +137,7 @@ class App extends Component {
         </Menu>
 
         <Route path="/build" component={Build} />
-        <Route path="/edit" component={Edit} />
+        <Route path="/edit" component={EditPage} />
       </div>
     );
   }

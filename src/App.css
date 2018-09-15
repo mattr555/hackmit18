@@ -37,3 +37,21 @@
   width: calc(100% - 5px);
   height: calc(100% - 5px);
 }
+
+.detailFormWrap {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.detailFormBody {
+  padding: 5px 10px;
+  max-height: calc(100% - 50px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex: 1 1 0%;
+}
+
+.detailFormFooter {
+  height: 50px;
+}
