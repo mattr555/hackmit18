@@ -3,16 +3,15 @@ import EditDetailsForm from "./EditDetailsForm";
 import { connect } from "react-redux";
 import { submit } from "redux-form";
 import { Button } from "semantic-ui-react";
-import { editFormName, dataLocalStorageKey } from "./consts";
+import { editFormName, dataLocalStorageKey, initialDetails } from "./consts";
 
 const EditPage = ({ dispatch }) => {
   const saveData = data => {
     window.localStorage.setItem(dataLocalStorageKey, JSON.stringify(data));
   };
 
-  const initialValues = JSON.parse(
-    window.localStorage.getItem(dataLocalStorageKey) || "{}"
-  );
+  const data = window.localStorage.getItem(dataLocalStorageKey);
+  const initialValues = data ? JSON.parse(data) : initialDetails;
 
   return (
     <div className="detailFormWrap">
