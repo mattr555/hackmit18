@@ -7,10 +7,12 @@ import DatePicker from "react-datepicker";
 import moment from "moment";
 import Template1 from "./resumeTemplates/template1.js";
 
-
 import Multiselect from "./Multiselect";
 import EditDetailsForm from "./EditDetailsForm";
 import EditPage from "./EditPage";
+import DetailSelectForm from "./DetailSelectForm";
+
+import { dataLocalStorageKey } from "./consts";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./App.css";
@@ -19,14 +21,40 @@ class Build extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: "Joe",
-      lastName: "Schmoe",
-      educations: [],
-      date: moment(),
+      details: {},
+      selections: {},
       dirty: false,
       remountKey: 0,
       docUrl: null
     };
+  }
+
+  componentWillMount() {
+    const details = JSON.parse(
+      window.localStorage.getItem(dataLocalStorageKey) || "{}"
+    );
+    this.setState({
+      details,
+      selections: {
+        firstName: true,
+        lastName: true,
+        address: false,
+        email: true,
+        phone: false,
+        honors: new Array(details.honors ? details.honors.length : 0).fill(
+          false
+        ),
+        education: new Array(
+          details.education ? details.education.length : 0
+        ).fill(false),
+        skills: new Array(details.skills ? details.skills.length : 0).fill(
+          false
+        ),
+        experience: new Array(
+          details.experience ? details.experience.length : 0
+        ).fill(false)
+      }
+    });
   }
 
   onDocRender = blob => {
@@ -34,48 +62,39 @@ class Build extends Component {
   };
 
   render() {
+    const sels = this.state.selections;
+    const details = this.state.details;
     return (
       <div className="buildWrap">
         <div className="editWrap">
           <div className="editBody">
-            <h2>Resumaté</h2>
-            {/* <Form>
-              <Form.Group widths="equal">
-                <Form.Field
-                  control={Input}
-                  label="First name"
-                  value={this.state.firstName}
-                  onChange={e =>
-                    this.setState({ firstName: e.target.value, dirty: true })
-                  }
-                />
-                <Form.Field
-                  control={Input}
-                  label="Last name"
-                  value={this.state.lastName}
-                  onChange={e =>
-                    this.setState({ lastName: e.target.value, dirty: true })
-                  }
-                />
-                <Form.Field
-                  control={Input}
-                  label="email address"
-                  value={this.state.emailAddr}
-                  onChange={e =>
-                    this.setState({ emailAddr: e.target.value, dirty: true })
-                  }
-                />
-              </Form.Group>
-              <Form.Field
-                label="Date"
-                control={DatePicker}
-                selected={this.state.date}
-                onChange={d => {
-                  this.setState({ date: d, dirty: true });
-                }}
-              />
-              {this.state.showEducation && <div>thing</div>}
-            </Form> */}
+            <DetailSelectForm
+              options={details}
+              state={sels}
+              onChange={(key, index) => {
+                if (typeof index == "undefined") {
+                  this.setState({
+                    selections: {
+                      ...sels,
+                      [key]: !sels[key]
+                    },
+                    dirty: true
+                  });
+                } else {
+                  this.setState({
+                    selections: {
+                      ...sels,
+                      [key]: [
+                        ...sels[key].slice(0, index),
+                        !sels[key][index],
+                        ...sels[key].slice(index + 1)
+                      ]
+                    },
+                    dirty: true
+                  });
+                }
+              }}
+            />
           </div>
           <div className="editFooter">
             <Button
@@ -101,13 +120,23 @@ class Build extends Component {
           </div>
         </div>
         <div className="docWrap">
-          <Template1 userData={{
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            emailAddr: this.state.emailAddr,
-            date: this.state.date
-          }} onDocRender={this.onDocRender} key={this.state.remountKey}></Template1>
-          
+          <Template1
+            userData={{
+              firstName: details.firstName,
+              lastName: details.lastName,
+              emailAddr: sels.email ? details.email : null,
+              phone: sels.phone ? details.phone : null,
+              address: sels.address ? details.address : null,
+              education: details.education.filter((v, i) => sels.education[i]),
+              experience: details.experience.filter(
+                (v, i) => sels.experience[i]
+              ),
+              skills: details.skills.filter((v, i) => sels.skills[i]),
+              honors: details.honors.filter((v, i) => sels.honors[i])
+            }}
+            onDocRender={this.onDocRender}
+            key={this.state.remountKey}
+          />
         </div>
       </div>
     );
@@ -119,7 +148,7 @@ class App extends Component {
     return (
       <div className="appWrap">
         <Menu>
-          <Menu.Item header>Resume Builder</Menu.Item>
+          <Menu.Item header>Resumaté</Menu.Item>
           <Menu.Item
             as={NavLink}
             activeClassName="active"
