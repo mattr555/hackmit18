@@ -68,7 +68,7 @@ function Template1(props) {
               {templateUtil.addSection(style1, "Education", userData.education, "school", "year", ["degree", "major", ' '], ["&&TITLETotal GPA:", "totalGPA", "&&TITLEMajor GPA:", "majorGPA", ' '], "description")}
               </View>
               <View style={style1.section}>
-              {templateUtil.addSection(style1, "Experience", userData.experience, ["company", "title", ' — '],["startDate", "endDate", ' - ' ], null, null, "description")}
+              {templateUtil.addSection(style1, "Experience", userData.experience, ["company", "title", ' — '],["(((date", "startDate", "endDate", ' - ' ], null, null, "description")}
               </View>
               <View style={style1.section}>
               {templateUtil.addSection(style1, "Skills", userData.skills, "skills")}

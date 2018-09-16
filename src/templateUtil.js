@@ -39,15 +39,25 @@ function putTogether(item, keys) {
   	var moment = require('moment');
     // array. concat the first n-1 objects using n as the delimiter
     let delim = keys[keys.length - 1];
+    let dates = false;
     for (let i = 0; i < keys.length - 1; i++) {
-      if (moment(item[keys[i]]).isValid()) {
+      if (keys[i] === "(((date") {
+        dates = true;
+        continue;
+      }
+      if (dates && moment(item[keys[i]]).isValid()) {
       	outList.push(dateConverter(item[keys[i]], "MMM YYYY"));
       }
       else if (keys[i].indexOf("&&TITLE") == 0) {
+        if (item[keys[i+1]] == '') {
+          // next element isn't there so ignore the title
+          continue;
+        }
         outList.push(keys[i].substring(7));
+        console.log(item[keys[i+1]]);
       }
       else {
-      	outList.push(item[keys[i]]);=
+      	outList.push(item[keys[i]]);
       }
     }
     return outList.join(delim);
