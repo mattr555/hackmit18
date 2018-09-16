@@ -21,7 +21,8 @@ const style1 = StyleSheet.create({
   },
   header: {
     fontSize: 22,
-    fontWeight: 900
+    fontWeight: 900,
+    color: '#0022CC'
   },
   right: {
     alignContent: "flex-end"
@@ -29,6 +30,9 @@ const style1 = StyleSheet.create({
   makeRow: {
     flexDirection: 'row',
     justifyContent: 'space-between'
+  },
+  section: {
+    marginTop: "16px"
   }
 });
 
@@ -38,13 +42,19 @@ function Template1(props) {
   let addList = (array) => {
     let outList = [];
     for (let i = 0; i < array.length; i++) {
-      //outList.push(<View style={{flexDirection: 'row'}}><Text> Start here, </Text> <Text> finish here </Text></View>);
-      //outList.push(<View style={{flexDirection: 'row'}}><Text>Start</Text><Text>Finish</Text></View>);
       outList.push(<View style={style1.makeRow}><Text>{array[i].school}</Text><Text style={style1.right}>{array[i].year}</Text></View>);
     }
     return outList;
   }
-  var fakeList = [
+  let addSection = (title, array) => {
+    let theList = addList(array);
+    return <View>
+      <Text style={style1.header}>{title}</Text>
+    
+      {addList(eduList)}
+    </View>
+  }
+  var eduList = [
     {
       school: 'Rutgers University, New Brunswick, NJ',
       year: '2021'
@@ -71,11 +81,11 @@ function Template1(props) {
               <View style={[style1.center, style1.contactInfo]}>
                 <Text>{userData.emailAddr}</Text>
               </View>
-              <View>
-                <Text style={style1.header}>Education</Text>
+              <View style={style1.section}>
+              {addSection("Education", eduList)}
               </View>
-              <View>
-              {addList(fakeList)}
+              <View style={style1.section}>
+              {addSection("Experience", eduList)}
               </View>
             </Page>
           </Document>
