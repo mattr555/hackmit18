@@ -21,7 +21,56 @@ class Build extends Component {
     this.state = {
       firstName: "Joe",
       lastName: "Schmoe",
-      educations: [],
+      emailAddr: "joes@example.net",
+      education: [
+        {
+          school: 'Rutgers University, New Brunswick, NJ',
+          year: '2021',
+          degree: 'BSE Electrical Engineering',
+          GPA: 'GPA: 3.14',
+          description: 'I take lots of classes and stuff. It\'s great'
+        },
+        {
+          school: 'High Technology High School, Lincroft, NJ',
+          year: '2016'
+        }
+      ],
+      experience: [
+        {
+          "company": "Vault Gang",
+          "title": "Squad Lead",
+          "startDate": moment("2015-06-25").format('MMMM YYYY'),
+          "endDate": moment("2018-08-30").format('MMMM YYYY'),
+          "description": "did some stuff"
+        },
+        {
+          "company": "Domino's",
+          "title": "CEO",
+          "startDate": '9/8/2011',
+          "endDate": 'Today',
+          "description": "*I made pizza and I unmade pizza*I had fun"
+        }
+      ],
+      skills: [
+        'Python 3',
+        'JavaScript/ES2015',
+        'Java 8',
+        'C++11',
+        'CSS/Sass',
+        'Bootstrap',
+        'd3.js',
+        'React/Redux',
+        'Django',
+        'Flask',
+        'Git',
+        'UNIX',
+        'Bash'
+      ],
+      honors: [
+        {honor:"Commvault Scholar"},
+        {honor:"National Merit Scholar"},
+        {honor:"International Collegiate Curling Competition — Semifinalist 2018"}
+      ],
       date: moment(),
       dirty: false,
       remountKey: 0,
@@ -105,6 +154,10 @@ class Build extends Component {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             emailAddr: this.state.emailAddr,
+            education: this.state.education,
+            experience: this.state.experience,
+            skills: [{skills:this.state.skills.join(", ")}],
+            honors: this.state.honors,
             date: this.state.date
           }} onDocRender={this.onDocRender} key={this.state.remountKey}></Template1>
           
