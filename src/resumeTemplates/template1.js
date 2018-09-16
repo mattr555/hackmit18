@@ -32,42 +32,91 @@ const style1 = StyleSheet.create({
     justifyContent: 'space-between'
   },
   section: {
-    marginTop: "16px"
+    marginTop: "16px",
+    fontSize: 16
+  },
+  subSec: {
+    fontSize: 14
   }
 });
 
 function Template1(props) {
   var userData = props.userData;
   var self = props.that;
-  let addList = (array) => {
+  let addList = (array, left, right, subLeft, subRight) => {
     let outList = [];
     for (let i = 0; i < array.length; i++) {
-      outList.push(<View style={style1.makeRow}><Text>{array[i].left}</Text><Text style={style1.right}>{array[i].right}</Text></View>);
+      // concatenate left if needed
+      let leftText = putTogether(array[i], left);
+      let rightText = putTogether(array[i], right);
+      outList.push(<View style={style1.makeRow}><Text>{leftText}</Text><Text style={style1.right}>{rightText}</Text></View>);
+      if (subLeft || subRight) {
+        outList.push(<View style={style1.makeRow}><Text style={style1.subSec}>{array[i][subLeft]}</Text><Text style={style1.right}>{array[i][subRight]}</Text></View>);
+      }
     }
     return outList;
   }
-  let addSection = (title, array) => {
+  
+  function putTogether(item, keys) {
+    if (typeof(keys) === "string") {
+      return item[keys];
+    }
+    let outList = [];
+    if (typeof(keys) === "object") {
+      // array. concat the first n-1 objects using n as the delimiter
+      let delim = keys[keys.length - 1];
+      console.log(item);
+      for (let i = 0; i < keys.length - 1; i++) {
+        console.log(keys[i]);
+        outList.push(item[keys[i]]);
+      }
+      return outList.join(delim);
+    }
+    return "error"
+  }
+  let addSection = (title, array, left, right, subLeft, subRight) => {
     let theList = addList(array);
     return <View>
       <Text style={style1.header}>{title}</Text>
     
-      {addList(eduList)}
+      {addList(array, left, right, subLeft, subRight)}
+
     </View>
   }
   var eduList = [
     {
       school: 'Rutgers University, New Brunswick, NJ',
-      year: '2021'
+      year: '2021',
+      degree: 'BSE Electrical Engineering',
+      GPA: 'GPA: 3.14'
     },
     {
       school: 'High Technology High School, Lincroft, NJ',
       year: '2016'
     }
+  ];
+  
+  var expList = [
+    {
+      "company": "Vault Gang",
+      "title": "Squad Lead",
+      "startDate": 30,
+      "endDate": 3232,
+      "description": "did some stuff"
+    },
+    {
+      "company": "Domino's",
+      "title": "CEO",
+      "startDate": '9/8/2011',
+      "endDate": 'Today',
+      "description": "I made pizza and I unmade pizza"
+    }
   ]
   
+  //skill list that looks better
   var skillList = [
     {
-      category: 'Programming Skills',
+      category: 'Programming Skills:',
       skills: [
       	'Python 3',
       	'JavaScript/ES2015',
@@ -76,7 +125,7 @@ function Template1(props) {
       	]
     },
     {
-      category: 'Web Development',
+      category: 'Web Development:',
       skills: [
       	'CSS/Sass',
       	'Bootstrap',
@@ -88,12 +137,29 @@ function Template1(props) {
       	
     },
     {
-      category: 'Miscellaneous Software',
+      category: 'Miscellaneous Software:',
       skills: [
       	'Git',
       	'UNIX',
       	'Bash'
       	]
+    }
+  ]
+  
+  //skill list that's easier to implement. handle actual concatenation somewhere else
+  //also just realized spec is different
+  var differentSkillList = [
+    {
+      category: 'Programming Skills:',
+      skills: 'Python 3, JavaScript/ES2015, Java 8, C++11'
+    },
+    {
+      category: 'Web Development:',
+      skills: 'CSS/Sass, Bootstrap, d3.js, React/Redux, Django, Flask'
+    },
+    {
+      category: 'Miscellaneous Software:',
+      skills: 'Git, UNIX, Bash'
     }
   ]
   
@@ -114,10 +180,13 @@ function Template1(props) {
                 <Text>{userData.emailAddr}</Text>
               </View>
               <View style={style1.section}>
-              {addSection("Education", eduList)}
+              {addSection("Education", eduList, "school", "year", "degree", "GPA")}
               </View>
               <View style={style1.section}>
-              {addSection("Experience", eduList)}
+              {addSection("Experience", expList, ["company", "title", ' -- '],["startDate", "endDate", ' -- ' ], "description")}
+              </View>
+              <View style={style1.section}>
+              {addSection("Skills", differentSkillList, "category", "skills")}
               </View>
             </Page>
           </Document>
