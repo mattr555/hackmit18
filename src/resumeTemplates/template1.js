@@ -42,7 +42,7 @@ function Template1(props) {
   let addList = (array) => {
     let outList = [];
     for (let i = 0; i < array.length; i++) {
-      outList.push(<View style={style1.makeRow}><Text>{array[i].school}</Text><Text style={style1.right}>{array[i].year}</Text></View>);
+      outList.push(<View style={style1.makeRow}><Text>{array[i].left}</Text><Text style={style1.right}>{array[i].right}</Text></View>);
     }
     return outList;
   }
@@ -62,6 +62,38 @@ function Template1(props) {
     {
       school: 'High Technology High School, Lincroft, NJ',
       year: '2016'
+    }
+  ]
+  
+  var skillList = [
+    {
+      category: 'Programming Skills',
+      skills: [
+      	'Python 3',
+      	'JavaScript/ES2015',
+      	'Java 8',
+      	'C++11'
+      	]
+    },
+    {
+      category: 'Web Development',
+      skills: [
+      	'CSS/Sass',
+      	'Bootstrap',
+      	'd3.js',
+      	'React/Redux',
+      	'Django',
+      	'Flask'
+      	]
+      	
+    },
+    {
+      category: 'Miscellaneous Software',
+      skills: [
+      	'Git',
+      	'UNIX',
+      	'Bash'
+      	]
     }
   ]
   
