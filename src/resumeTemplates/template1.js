@@ -37,21 +37,37 @@ const style1 = StyleSheet.create({
   },
   subSec: {
     fontSize: 14
+  },
+  description: {
+    marginLeft: 10
   }
 });
 
 function Template1(props) {
   var userData = props.userData;
   var self = props.that;
-  let addList = (array, left, right, subLeft, subRight) => {
+  
+  let addList = (array, left, right, subLeft, subRight, description) => {
+    function rightTag(rightText) {
+      //console.log(right);
+      if (rightText != null && rightText != 'error') {
+        //console.log(array[i][subRight]);
+        return <Text style={style1.right}>{rightText}</Text>;
+      }
+      console.log('yes?')
+      return "";
+    }
     let outList = [];
     for (let i = 0; i < array.length; i++) {
       // concatenate left if needed
       let leftText = putTogether(array[i], left);
       let rightText = putTogether(array[i], right);
-      outList.push(<View style={style1.makeRow}><Text>{leftText}</Text><Text style={style1.right}>{rightText}</Text></View>);
+      outList.push(<View style={style1.makeRow}><Text>{leftText}</Text><Text style={style1.right}>{rightTag(rightText)}</Text></View>);
       if (subLeft || subRight) {
-        outList.push(<View style={style1.makeRow}><Text style={style1.subSec}>{array[i][subLeft]}</Text><Text style={style1.right}>{array[i][subRight]}</Text></View>);
+      outList.push(<View style={style1.makeRow}><Text style={style1.subSec}>{array[i][subLeft]}</Text><Text style={style1.subRight}>{array[i][subRight]}</Text></View>);
+      }
+      if (description) {
+        outList.push(<View style={style1.description}>{formDescript(array[i], description)}</View>)
       }
     }
     return outList;
@@ -65,21 +81,35 @@ function Template1(props) {
     if (typeof(keys) === "object") {
       // array. concat the first n-1 objects using n as the delimiter
       let delim = keys[keys.length - 1];
-      console.log(item);
       for (let i = 0; i < keys.length - 1; i++) {
-        console.log(keys[i]);
         outList.push(item[keys[i]]);
       }
       return outList.join(delim);
     }
     return "error"
   }
-  let addSection = (title, array, left, right, subLeft, subRight) => {
+  
+  function formDescript(item, key) {
+    // assume one-key descriptions. interpret asterisk as bullet point
+    
+    let bulletPoint = '•';//'\u8226';
+    let result = [];
+    let descriptionText = item[key].split("*");
+    //let descriptionText = item[key].replace(/\*/g, bulletPoint);
+    if (descriptionText.length == 1) return <Text>{descriptionText}</Text>;
+    for (let i = 0; i < descriptionText.length; i++) {
+      if (descriptionText[i].length > 0) {
+        result.push(<Text>{bulletPoint+'  '+descriptionText[i]}</Text>);
+      }
+    }
+    return result;
+  }
+  let addSection = (title, array, left, right, subLeft, subRight, description) => {
     let theList = addList(array);
     return <View>
       <Text style={style1.header}>{title}</Text>
     
-      {addList(array, left, right, subLeft, subRight)}
+      {addList(array, left, right, subLeft, subRight, description)}
 
     </View>
   }
@@ -109,7 +139,7 @@ function Template1(props) {
       "title": "CEO",
       "startDate": '9/8/2011',
       "endDate": 'Today',
-      "description": "I made pizza and I unmade pizza"
+      "description": "*I made pizza and I unmade pizza*I had fun"
     }
   ]
   
@@ -144,6 +174,12 @@ function Template1(props) {
       	'Bash'
       	]
     }
+  ];
+  
+  var honors = [
+  {honor:"Commvault Scholar"},
+  {honor:"National Merit Scholar"},
+  {honor:"International Collegiate Curling Competition — Semifinalist 2018"}
   ]
   
   //skill list that's easier to implement. handle actual concatenation somewhere else
@@ -183,10 +219,13 @@ function Template1(props) {
               {addSection("Education", eduList, "school", "year", "degree", "GPA")}
               </View>
               <View style={style1.section}>
-              {addSection("Experience", expList, ["company", "title", ' -- '],["startDate", "endDate", ' -- ' ], "description")}
+              {addSection("Experience", expList, ["company", "title", ' — '],["startDate", "endDate", ' - ' ], null, null, "description")}
               </View>
               <View style={style1.section}>
               {addSection("Skills", differentSkillList, "category", "skills")}
+              </View>
+              <View style={style1.section}>
+              {addSection("Honors and Awards", honors, "honor")}
               </View>
             </Page>
           </Document>
