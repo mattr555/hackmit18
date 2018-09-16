@@ -131,8 +131,16 @@ class Build extends Component {
               experience: details.experience.filter(
                 (v, i) => sels.experience[i]
               ),
-              skills: details.skills.filter((v, i) => sels.skills[i]),
-              honors: details.honors.filter((v, i) => sels.honors[i])
+              skills: [
+                {
+                  skills: details.skills
+                    .filter((v, i) => sels.skills[i])
+                    .join(", ")
+                }
+              ],
+              honors: details.honors
+                .filter((v, i) => sels.honors[i])
+                .map(v => ({ honor: v }))
             }}
             onDocRender={this.onDocRender}
             key={this.state.remountKey}
