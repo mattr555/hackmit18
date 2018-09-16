@@ -1,8 +1,137 @@
 import React, { Component } from "react";
-import { Field, reduxForm } from "redux-form";
-import { Form } from "semantic-ui-react";
-import { InputField } from "react-semantic-redux-form";
+import { Field, FieldArray, reduxForm } from "redux-form";
+import { Form, Button, Icon } from "semantic-ui-react";
+import { InputField, TextAreaField } from "react-semantic-redux-form";
+import DatePicker from "react-datepicker";
+import { WithContext as ReactTags } from "react-tag-input";
+import moment from "moment";
 import { editFormName } from "./consts";
+
+const DateField = ({ label, input: { value, onChange } }) => {
+  return (
+    <Form.Field
+      label={label}
+      control={DatePicker}
+      selected={moment(value || new Date().getTime())}
+      onChange={d => {
+        onChange(d.seconds());
+      }}
+    />
+  );
+};
+
+const renderEducation = ({ fields }) => {
+  return (
+    <div>
+      <h3>Education</h3>
+      <Button icon onClick={() => fields.push({})}>
+        <Icon name="plus" />
+        Add Education
+      </Button>
+      {fields.map((member, index) => (
+        <div key={index}>
+          <Form.Group>
+            <Field
+              name={`${member}.school`}
+              label="Institution"
+              component={InputField}
+            />
+            <Field
+              name={`${member}.degree`}
+              label="Degree"
+              component={InputField}
+            />
+            <Field
+              name={`${member}.major`}
+              label="Major"
+              component={InputField}
+            />
+            <Field
+              name={`${member}.year`}
+              label="Graduation Year"
+              component={InputField}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Field
+              name={`${member}.majorGPA`}
+              label="Major GPA"
+              type="number"
+              component={InputField}
+            />
+            <Field
+              name={`${member}.totalGPA`}
+              label="Total GPA"
+              type="number"
+              component={InputField}
+            />
+          </Form.Group>
+          <Button onClick={() => fields.remove(index)}>
+            <Icon name="trash" />
+            Delete Education
+          </Button>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const renderExperience = ({ fields }) => (
+  <div>
+    <h3>Experience</h3>
+    <Button icon onClick={() => fields.push({})}>
+      <Icon name="plus" />
+      Add Experience
+    </Button>
+    {fields.map((member, index) => (
+      <div key={index}>
+        <Form.Group>
+          <Field
+            name={`${member}.company`}
+            label="Company"
+            component={InputField}
+          />
+          <Field
+            name={`${member}.title`}
+            label="Title"
+            component={InputField}
+          />
+          <Field
+            name={`${member}.startDate`}
+            label="Start Date"
+            component={DateField}
+          />
+          <Field
+            name={`${member}.endDate`}
+            label="End Date"
+            component={DateField}
+          />
+        </Form.Group>
+        <Field
+          name={`${member}.description`}
+          label="Description"
+          component={TextAreaField}
+        />
+        <Button onClick={() => fields.remove(index)}>
+          <Icon name="trash" />
+          Delete Experience
+        </Button>
+      </div>
+    ))}
+  </div>
+);
+
+const SkillsField = ({ input: { value, onChange } }) => {
+  const tags = value || [];
+  return (
+    <ReactTags
+      tags={tags.map((e, i) => ({ id: i.toString(), text: e }))}
+      handleAddition={tag => onChange([...tags, tag.text])}
+      handleDelete={i => onChange([...tags.slice(0, i), ...tags.slice(i + 1)])}
+      placeholder="Type and press enter"
+    />
+  );
+};
 
 const EditDetailsForm = ({ handleSubmit }) => {
   return (
@@ -17,6 +146,13 @@ const EditDetailsForm = ({ handleSubmit }) => {
         <Field name="email" label="Email" component={InputField} />
       </Form.Group>
       <Field name="address" label="Address" component={InputField} />
+      <hr />
+      <FieldArray name="education" component={renderEducation} />
+      <hr />
+      <FieldArray name="experience" component={renderExperience} />
+      <hr />
+      <h3>Skills</h3>
+      <Field name="skills" component={SkillsField} />
     </Form>
   );
 };

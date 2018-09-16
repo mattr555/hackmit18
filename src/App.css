@@ -1,3 +1,7 @@
+body {
+  overflow: hidden;
+}
+
 .appWrap {
   height: 100vh;
   display: flex;
@@ -41,7 +45,7 @@
 .detailFormWrap {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: calc(100vh - 50px);
 }
 
 .detailFormBody {
@@ -50,8 +54,16 @@
   overflow-x: hidden;
   overflow-y: auto;
   flex: 1 1 0%;
+  margin-bottom: 10px;
 }
 
 .detailFormFooter {
   height: 50px;
+}
+
+.ReactTags__tag {
+  padding: 10px;
+  background-color: #bbb;
+  margin-right: 5px;
+  margin-bottom: 10px;
 }
