@@ -8,13 +8,15 @@ import moment from "moment";
 import { editFormName } from "./consts";
 
 const DateField = ({ label, input: { value, onChange } }) => {
+  console.log(value);
+  const time = value || 1537070829329;
   return (
     <Form.Field
       label={label}
       control={DatePicker}
-      selected={moment(value || new Date().getTime())}
+      selected={moment(time)}
       onChange={d => {
-        onChange(d.seconds());
+        onChange(d.unix() * 1000);
       }}
     />
   );
