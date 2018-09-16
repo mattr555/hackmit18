@@ -1,22 +1,27 @@
 import React, { Component } from "react";
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
-import { Button, Input, Icon, Form, Container } from "semantic-ui-react";
+import { Button, Input, Icon, Form, Container, Menu } from "semantic-ui-react";
+import { InputField } from "react-semantic-redux-form";
+import { Route, NavLink } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import Template1 from "./resumeTemplates/template1.js";
 
 
 import Multiselect from "./Multiselect";
+import EditDetailsForm from "./EditDetailsForm";
+import EditPage from "./EditPage";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./App.css";
 
-class App extends Component {
+class Build extends Component {
   constructor(props) {
     super(props);
     this.state = {
       firstName: "Joe",
       lastName: "Schmoe",
+      educations: [],
       date: moment(),
       dirty: false,
       remountKey: 0,
@@ -30,11 +35,11 @@ class App extends Component {
 
   render() {
     return (
-      <div className="appWrap">
+      <div className="buildWrap">
         <div className="editWrap">
           <div className="editBody">
             <h2>Resumaté</h2>
-            <Form>
+            {/* <Form>
               <Form.Group widths="equal">
                 <Form.Field
                   control={Input}
@@ -65,10 +70,12 @@ class App extends Component {
                 label="Date"
                 control={DatePicker}
                 selected={this.state.date}
-                onChange={d => this.setState({ date: d, dirty: true })}
+                onChange={d => {
+                  this.setState({ date: d, dirty: true });
+                }}
               />
-              {/* <Multiselect /> */}
-            </Form>
+              {this.state.showEducation && <div>thing</div>}
+            </Form> */}
           </div>
           <div className="editFooter">
             <Button
@@ -102,6 +109,37 @@ class App extends Component {
           }} onDocRender={this.onDocRender} key={this.state.remountKey}></Template1>
           
         </div>
+      </div>
+    );
+  }
+}
+
+class App extends Component {
+  render() {
+    return (
+      <div className="appWrap">
+        <Menu>
+          <Menu.Item header>Resume Builder</Menu.Item>
+          <Menu.Item
+            as={NavLink}
+            activeClassName="active"
+            to="/edit"
+            name="editDetails"
+          >
+            Edit Details
+          </Menu.Item>
+          <Menu.Item
+            as={NavLink}
+            activeClassName="active"
+            to="/build"
+            name="build"
+          >
+            Build
+          </Menu.Item>
+        </Menu>
+
+        <Route path="/build" component={Build} />
+        <Route path="/edit" component={EditPage} />
       </div>
     );
   }

@@ -1,6 +1,16 @@
+body {
+  overflow: hidden;
+}
+
 .appWrap {
-  display: flex;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.buildWrap {
+  display: flex;
+  flex: 1;
   flex-direction: row;
 }
 
@@ -30,4 +40,30 @@
 .docWrap iframe {
   width: calc(100% - 5px);
   height: calc(100% - 5px);
+}
+
+.detailFormWrap {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 50px);
+}
+
+.detailFormBody {
+  padding: 5px 10px;
+  max-height: calc(100% - 50px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex: 1 1 0%;
+  margin-bottom: 10px;
+}
+
+.detailFormFooter {
+  height: 50px;
+}
+
+.ReactTags__tag {
+  padding: 10px;
+  background-color: #e0e1e2;
+  margin-right: 5px;
+  margin-bottom: 10px;
 }
