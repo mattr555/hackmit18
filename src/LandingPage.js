@@ -9,6 +9,9 @@ const LandingPage = () => (
       <Link to="/edit">
         <Button size="huge">Get Started</Button>
       </Link>
+      <br />
+      <br />
+      <img src="landing_photo.jpg" height="50%" width="50%"/>
     </Segment>
   </div>
 );
