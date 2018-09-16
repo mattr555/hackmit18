@@ -33,7 +33,7 @@ class App extends Component {
       <div className="appWrap">
         <div className="editWrap">
           <div className="editBody">
-            <h2>hai</h2>
+            <h2>Resumaté</h2>
             <Form>
               <Form.Group widths="equal">
                 <Form.Field
