@@ -68,7 +68,13 @@ const renderEducation = ({ fields }) => {
               component={InputField}
             />
           </Form.Group>
-          <Button onClick={() => fields.remove(index)}>
+          <Field
+            name={`${member}.description`}
+            label="Description"
+            component={TextAreaField}
+            placeholder="Use * for bulletpoints"
+          />
+          <Button icon onClick={() => fields.remove(index)}>
             <Icon name="trash" />
             Delete Education
           </Button>
@@ -114,7 +120,7 @@ const renderExperience = ({ fields }) => (
           label="Description"
           component={TextAreaField}
         />
-        <Button onClick={() => fields.remove(index)}>
+        <Button icon onClick={() => fields.remove(index)}>
           <Icon name="trash" />
           Delete Experience
         </Button>
@@ -123,7 +129,7 @@ const renderExperience = ({ fields }) => (
   </div>
 );
 
-const SkillsField = ({ input: { value, onChange } }) => {
+const TagField = ({ input: { value, onChange } }) => {
   const tags = value || [];
   return (
     <ReactTags
@@ -154,7 +160,10 @@ const EditDetailsForm = ({ handleSubmit }) => {
       <FieldArray name="experience" component={renderExperience} />
       <hr />
       <h3>Skills</h3>
-      <Field name="skills" component={SkillsField} />
+      <Field name="skills" component={TagField} />
+      <hr />
+      <h3>Honors and Awards</h3>
+      <Field name="honors" component={TagField} />
     </Form>
   );
 };
