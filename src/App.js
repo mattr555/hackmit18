@@ -16,6 +16,7 @@ import { dataLocalStorageKey } from "./consts";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./App.css";
+import LandingPage from "./LandingPage.js";
 
 class Build extends Component {
   constructor(props) {
@@ -176,6 +177,7 @@ class App extends Component {
           </Menu.Item>
         </Menu>
 
+        <Route path="/" exact component={LandingPage} />
         <Route path="/build" component={Build} />
         <Route path="/edit" component={EditPage} />
       </div>
