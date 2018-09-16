@@ -15,8 +15,10 @@ const style1 = StyleSheet.create({
     //fontFamily: 
   },
   contactInfo: {
-    fontSize: 14,
-    color : 'blue'
+    fontSize: 14
+  },
+  blue: {
+    color: 'blue'
   },
   whole: {
     padding:"20px"
@@ -37,9 +39,6 @@ const style1 = StyleSheet.create({
     marginTop: "16px",
     fontSize: 16
   },
-  subSec: {
-    fontSize: 14
-  },
   description: {
     marginLeft: 10
   }
@@ -48,12 +47,12 @@ const style1 = StyleSheet.create({
 function Template1(props) {
   var userData = props.userData;
   var self = props.that;
-  
+  console.log(userData);
   return <Document 
             font={[
              { fontFamily: 'Garamond', src: '../fonts/Garamond.ttf' }
             ]}
-            title="aaaa"
+            title="Resume"
             onRender={props.onDocRender}
           >
             <Page style={style1.whole} size="LETTER">
@@ -62,11 +61,11 @@ function Template1(props) {
                   {userData.firstName} {userData.lastName}
                 </Text>
               </View>
-              <View style={[style1.center, style1.contactInfo]}>
-                <Text>{userData.emailAddr}</Text>
-              </View>
+              <Text style={[style1.center, style1.contactInfo]}>
+                <Text style={style1.blue}>{userData.emailAddr}</Text> <Text>{userData.phone}</Text> <Text>{userData.address}</Text>
+              </Text>
               <View style={style1.section}>
-              {templateUtil.addSection(style1, "Education", userData.education, "school", "year", "degree", "GPA", "description")}
+              {templateUtil.addSection(style1, "Education", userData.education, "school", "year", ["degree", "major", ' '], ["&&TITLETotal GPA:", "totalGPA", "&&TITLEMajor GPA:", "majorGPA", ' '], "description")}
               </View>
               <View style={style1.section}>
               {templateUtil.addSection(style1, "Experience", userData.experience, ["company", "title", ' — '],["startDate", "endDate", ' - ' ], null, null, "description")}

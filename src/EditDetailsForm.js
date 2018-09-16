@@ -8,7 +8,6 @@ import moment from "moment";
 import { editFormName } from "./consts";
 
 const DateField = ({ label, input: { value, onChange } }) => {
-  console.log(value);
   const time = value || 1537070829329;
   return (
     <Form.Field

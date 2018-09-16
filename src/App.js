@@ -128,6 +128,7 @@ class Build extends Component {
               phone: sels.phone ? details.phone : null,
               address: sels.address ? details.address : null,
               education: details.education.filter((v, i) => sels.education[i]),
+              totalGPA: sels.totalGPA,
               experience: details.experience.filter(
                 (v, i) => sels.experience[i]
               ),

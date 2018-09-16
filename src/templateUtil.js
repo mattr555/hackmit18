@@ -3,12 +3,9 @@ import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 
 function addList (style, array, left, right, subLeft, subRight, description) {
   function rightTag(rightText) {
-    //console.log(right);
     if (rightText != null && rightText != 'error') {
-      //console.log(array[i][subRight]);
       return <Text style={style.right}>{rightText}</Text>;
     }
-    console.log('yes?')
     return "";
   }
   let outList = [];
@@ -16,9 +13,11 @@ function addList (style, array, left, right, subLeft, subRight, description) {
     // concatenate left if needed
     let leftText = putTogether(array[i], left);
     let rightText = putTogether(array[i], right);
+    let subLeftText = putTogether(array[i], subLeft);
+    let subRightText = putTogether(array[i], subRight);
     outList.push(<View style={style.makeRow}><Text>{leftText}</Text><Text style={style.right}>{rightTag(rightText)}</Text></View>);
     if (subLeft || subRight) {
-    outList.push(<View style={style.makeRow}><Text style={style.subSec}>{array[i][subLeft]}</Text><Text style={style.subRight}>{array[i][subRight]}</Text></View>);
+    outList.push(<View style={style.makeRow}><Text>{subLeftText}</Text><Text style={style.subRight}>{subRightText}</Text></View>);
     }
     if (description && array[i][description]) {
       outList.push(<View style={style.description}>{formDescript(array[i], description)}</View>)
@@ -31,12 +30,20 @@ function putTogether(item, keys) {
   if (typeof(keys) === "string") {
     return item[keys];
   }
+  if (keys == null) {
+    return "error"
+  }
   let outList = [];
   if (typeof(keys) === "object") {
     // array. concat the first n-1 objects using n as the delimiter
     let delim = keys[keys.length - 1];
     for (let i = 0; i < keys.length - 1; i++) {
-      outList.push(item[keys[i]]);
+      if (keys[i].indexOf("&&TITLE") == 0) {
+        outList.push(keys[i].substring(7));
+      }
+      else {
+        outList.push(item[keys[i]]);
+      }
     }
     return outList.join(delim);
   }
