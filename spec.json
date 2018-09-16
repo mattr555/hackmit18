@@ -1,0 +1,30 @@
+{
+  "firstName": "matt",
+  "lastName": "ramina",
+  "education": [
+    {
+      "school": "Rutgers University",
+      "degree": "BS",
+      "major": "Computer Science",
+      "year": "2021",
+      "majorGPA": "2.3",
+      "totalGPA": "5.2"
+    }
+  ],
+  "experience": [
+    {
+      "company": "Vault Gang",
+      "title": "Squad Lead",
+      "startDate": 30,
+      "description": "did some stuff"
+    }
+  ],
+  "skills": [
+    "def",
+    "ghi jkl",
+    "other things"
+  ],
+  "phone": "7321234567",
+  "email": "foo@example.com",
+  "address": "123 Main St, Anytown, USA"
+}
