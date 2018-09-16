@@ -39,6 +39,7 @@ class Build extends Component {
         firstName: true,
         lastName: true,
         address: false,
+        website: false,
         email: true,
         phone: false,
         honors: new Array(details.honors ? details.honors.length : 0).fill(

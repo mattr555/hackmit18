@@ -153,7 +153,15 @@ const EditDetailsForm = ({ handleSubmit }) => {
         <Field name="phone" label="Phone Number" component={InputField} />
         <Field name="email" label="Email" component={InputField} />
       </Form.Group>
-      <Field name="address" label="Address" component={InputField} />
+      <Form.Group widths="equal">
+        <Field name="address" label="Address" component={InputField} />
+        <Field
+          name="website"
+          label="Website"
+          component={InputField}
+          placeholder="http://"
+        />
+      </Form.Group>
       <hr />
       <FieldArray name="education" component={renderEducation} />
       <hr />

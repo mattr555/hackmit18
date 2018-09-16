@@ -25,6 +25,13 @@ const DetailSelectForm = ({ options, onChange, state }) => (
         checked={state.address}
       />
     </Form.Field>
+    <Form.Field>
+      <Checkbox
+        label="Show Website"
+        onChange={() => onChange("website")}
+        checked={state.website}
+      />
+    </Form.Field>
 
     <h3>Education</h3>
     {options.education.map((e, i) => (
